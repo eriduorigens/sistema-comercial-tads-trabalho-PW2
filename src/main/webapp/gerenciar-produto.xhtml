@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Produto </title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:breadCrumb>
+                <p:menuitem value="principal" url="sistema-comercial-tads/" />
+                <p:menuitem value="Categoria" url="faces/gerenciar-categoria.xhtml" />
+                <p:menuitem value="Produto" url="#" />
+
+            </p:breadCrumb>
+
+            <p:fieldset legend="Produtos" >
+                <p:toolbar>
+                    <p:toolbarGroup>
+                        <p:commandButton value="Novo" actionListener="#{produtoBean.novo()}"
+                                         update="@form"></p:commandButton>
+
+                        <p:commandButton value="Pesquisar" actionListener="#{produtoBean.pesquisar()}"
+                                         update="@form"></p:commandButton>
+
+                        <p:growl id="growl" showDetail="true" sticky="true" /> 
+                        <p:commandButton value="Salvar" actionListener="#{produtoBean.adicionarProduto()}"
+                                         update="@form" 
+                                         rendered="#{produtoBean.statusTela != 'PESQUISANDO'}"></p:commandButton>
+
+
+
+
+                    </p:toolbarGroup>
+                </p:toolbar>
+
+                <p:panelGrid columns="2" styleClass="ui-noborder" 
+                             rendered="#{produtoBean.statusTela != 'PESQUISANDO'}">
+                    <h:outputLabel value="Nome"  for ="inputNome"></h:outputLabel>
+                    <p:inputText value="#{produtoBean.produto.nome}" id ="inputNome"></p:inputText>
+
+                    <h:outputLabel value="Marca"  for ="inputMarca"></h:outputLabel>
+                    <p:inputText value="#{produtoBean.produto.marca}" id ="inputMarca"></p:inputText>
+
+                    <h:outputLabel value="Codigo_de_barra"  for ="inputCodigo_de_barra"></h:outputLabel>
+                    <p:inputText value="#{produtoBean.produto.codigo_de_barra}" id ="inputCodigo_de_barra"></p:inputText>
+
+                    <h:outputLabel value="Unidade_de_medida"  for ="inputUnidade_de_medida"></h:outputLabel>
+                    <p:inputText value="#{produtoBean.produto.unidade_de_medida}" id ="inputUnidade_de_medida"></p:inputText>
+
+
+
+
+
+
+
+
+
+
+                    <h:outputLabel value="Categoria"  for ="inputUnidade_de_medida"></h:outputLabel>
+
+                    <p:selectOneMenu value="#{produtoBean.produto.categoria_id}">
+                        <f:selectItem itemLabel="Selecione" itemValue=""></f:selectItem>
+                        <f:selectItems value="#{produtoBean.categorias}" var="cat"
+                                       itemLabel="#{cat.nome}" itemValue="#{cat}"
+                                       ></f:selectItems>
+                    </p:selectOneMenu>
+
+
+
+
+
+
+
+
+
+
+                </p:panelGrid>
+
+                <!--tabelas-->
+
+                <p:dataTable value="#{produtoBean.produtos}" var="cat"
+                             rendered="#{produtoBean.statusTela == 'PESQUISANDO'}">
+
+
+                    <p:column headerText="ID">
+                        <h:outputText value="#{cat.id}"></h:outputText>
+                    </p:column>                    
+                    <p:column headerText="Nome">
+                        <h:outputText value="#{cat.nome}"></h:outputText>
+                    </p:column>
+
+                    <p:column headerText="Marca">
+                        <h:outputText value="#{cat.marca}"></h:outputText>
+                    </p:column>
+
+                    <p:column headerText="unidade_medida">
+                        <h:outputText value="#{cat.unidade_de_medida}"></h:outputText>
+                    </p:column>
+
+                    <p:column headerText="codigo_de_barra">
+                        <h:outputText value="#{cat.codigo_de_barra}"></h:outputText>
+                    </p:column>
+
+                    <p:column headerText="categoria_id">
+                        <h:outputText value="#{cat.categoria_id.nome}"></h:outputText>
+                    </p:column>
+                    <p:column>
+                        <p:commandButton value="Delete" update="@form"
+                                         actionListener="#{produtoBean.remover(cat)}">
+                        </p:commandButton>
+
+                        <p:commandButton value="Editar" update="@form"
+                                         actionListener="#{produtoBean.editar(cat)}"></p:commandButton>
+                    </p:column>
+
+                </p:dataTable>
+            </p:fieldset>
+        </h:form>
+    </h:body>
+</html>
+
